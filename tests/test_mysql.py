@@ -271,3 +271,8 @@ def test_operators(lexer, text):
 def test_punctuation(lexer, text, expected_types):
     tokens = list(lexer.get_tokens(text))[:len(expected_types)]
     assert all(t[0] == e for t, e in zip(tokens, expected_types))
+
+def test_mysql_backtick_identifier(lexer):
+    text = "CREATE TABLE `my_table` (id INT);"
+    res = lexer.analyse_text(text)
+    assert res == 0.1

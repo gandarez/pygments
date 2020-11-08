@@ -745,22 +745,8 @@ class MySqlLexer(RegexLexer):
     }
 
     def analyse_text(text):
-        rating = 0
-        name_between_backtick_count = len(
-            name_between_backtick_re.findall(text))
-        name_between_bracket_count = len(
-            name_between_bracket_re.findall(text))
-        # Same logic as above in the TSQL analysis
-        dialect_name_count = name_between_backtick_count + name_between_bracket_count
-        if dialect_name_count >= 1 and \
-           name_between_backtick_count >= 2 * name_between_bracket_count:
-            # Found at least twice as many `name` as [name].
-            rating += 0.5
-        elif name_between_backtick_count > name_between_bracket_count:
-            rating += 0.2
-        elif name_between_backtick_count > 0:
-            rating += 0.1
-        return rating
+        if name_between_backtick_re.search(text):
+            return 0.1
 
 
 class SqliteConsoleLexer(Lexer):
